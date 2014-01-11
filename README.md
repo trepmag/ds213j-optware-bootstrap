@@ -6,7 +6,14 @@ Synology ds213j optware manual bootstrap guide.
 Introduction
 ------------
 
-Actually there's no xsh bootstrap for the ds213j (Marvell Armada 370 ARMv7l) although the existing Marvell Kirkwood mv6281 binaries are compatible (http://ipkg.nslu2-linux.org/feeds/optware/cs08q1armel/). So this is a small guide to setup manually the optware environment (ipkg, PATH and init scripts).
+Actually there's no xsh bootstrap for the ds213j (Marvell Armada 370 ARMv7l) although the existing Marvell Kirkwood mv6281 binaries "are ~ compatible" (http://ipkg.nslu2-linux.org/feeds/optware/cs08q1armel/). So this is a small guide to setup manually the optware environment (ipkg, PATH and init scripts).
+
+### Not on compatibility
+It appear that binaries aren't that much/all compatible. The reason must be that the cs08q1armel toolchain doesn't have updated materials. 
+If you encounter issues you should consider setup a chroot environment instead.
+
+#### Note on Debian chroot alternative
+You must use the --arch=armel deboostrap option and not armhf! This is because the ARMv7l doesn't have the thumb-2 feature which is required by the armhf architecture (reference: https://wiki.debian.org/ArmHardFloatPort#Minimum_CPU_.26_FPU)
 
 Create optware root directory
 ------------
