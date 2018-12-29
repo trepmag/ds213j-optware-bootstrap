@@ -15,6 +15,19 @@ If you encounter issues you should consider setup a chroot environment instead.
 #### Note on Debian chroot alternative
 You must use the --arch=armel deboostrap option and not armhf! This is because the ARMv7l doesn't have the thumb-2 feature which is required by the armhf architecture (reference: https://wiki.debian.org/ArmHardFloatPort#Minimum_CPU_.26_FPU)
 
+##### Steps
+The chroot filesystem is built on a alternate machine (your desktop, laptop, etc, ...) and then uploaded on the synology device where the "second stage" is proceeded.
+```
+# Build initial chroot filesystem
+$ sudo debootstrap --foreign --arch=armel stretch @debian  # build chroot filesystem into the current dir as ./@debian
+$ sudo tar czvf @debian.tgz @debian/  # build an archive
+$ scp @debian.tgz <user>@<remote>:  # upload the archive into synology device
+
+# Second stage (on the synology device)
+$ tar xvf "/volume1/homes/<user>/@debian.tgz" -C /volume1/  # unpack
+$ chroot /volume1/@debian /debootstrap/debootstrap --second-stage  # trigger deboostrap "second stage"
+```
+
 Create optware root directory
 ------------
 <pre>
